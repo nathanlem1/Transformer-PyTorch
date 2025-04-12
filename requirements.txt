@@ -1,0 +1,3 @@
+loguru
+nltk
+torch>=2.2.2
