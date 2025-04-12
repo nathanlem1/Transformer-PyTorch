@@ -1,7 +1,6 @@
 """
 This is a Transformer implementation using built-in nn.Transformer available in PyTorch deep learning framework for a
 ChatBot task i.e. sequence-to-sequence task.
-
 """
 import torch
 import torch.nn as nn
@@ -30,8 +29,8 @@ class Transformer(nn.Module):
     """
     Transformer Model Implementation
     """
-    def __init__(self, vocab_size, d_model=256, nhead=8, num_encoder_layers=3,
-                 num_decoder_layers=3, dim_feedforward=512, dropout=0.1):
+    def __init__(self, vocab_size, d_model=256, num_heads=8, num_encoder_layers=3, num_decoder_layers=3,
+                 dim_feedforward=512, dropout=0.1):
         super(Transformer, self).__init__()
         self.d_model = d_model
         self.encoder_embedding = nn.Embedding(vocab_size, d_model)  # word embedding - Categorical variables (dictionary
@@ -41,7 +40,7 @@ class Transformer(nn.Module):
         self.pos_encoder = SinusoidalPositionalEncoding(d_model)
         self.transformer = nn.Transformer(
             d_model=d_model,
-            nhead=nhead,
+            nhead=num_heads,
             num_encoder_layers=num_encoder_layers,
             num_decoder_layers=num_decoder_layers,
             dim_feedforward=dim_feedforward,
@@ -88,4 +87,3 @@ class Transformer(nn.Module):
         # Final linear layer
         output = self.fc_out(output)
         return output
-
