@@ -4,14 +4,11 @@ This code is a complete implementation of a ChatBot (sequence-to-sequence task) 
 transformer implemented from scratch and a transformer built from built-in nn.Transformer of a PyTorch deep learning
 framework. This Transformer implementation is based on the original paper [Attention is All you Need](https://arxiv.org/abs/1706.03762).
 
-The following transformer architecture is the modified version of the diagram taken from the original paper for clarity.
+The following transformer architecture is the modified version of the diagram given in the [original paper](https://arxiv.org/abs/1706.03762)
+for clarity.
 
-![](./assets/transformer.png)
+![](./assets/transformer_architecture.png)
 
-The following links are useful for understanding the Transformer architecture in more details: 
-[Link1](https://medium.com/towards-data-science/build-your-own-transformer-from-scratch-using-pytorch-84c850470dcb), 
-[Link2](https://medium.com/@bavalpreetsinghh/transformer-from-scratch-using-pytorch-28a5d1b2e033) and 
-[Link3](https://medium.com/correll-lab/building-clip-from-scratch-68f6e42d35f4).
 
 ## Installation
 
@@ -33,3 +30,10 @@ python chatbot_example.py  --transformer_type from_scratch --positional_encoding
 
 Please look into the `chatbot_example.py` for more details. You need to provide the correct `transformer_type` 
 (`from_scratch` or `from_pytorch`), `positional_encoding_type` (`sinusoidal` or `learned`) and others if necessary.
+
+## Additional Information
+The following links are useful for understanding the Transformer architecture in more details: 
+[Link1](https://medium.com/towards-data-science/build-your-own-transformer-from-scratch-using-pytorch-84c850470dcb), 
+[Link2](https://medium.com/@bavalpreetsinghh/transformer-from-scratch-using-pytorch-28a5d1b2e033) and 
+[Link3](https://medium.com/correll-lab/building-clip-from-scratch-68f6e42d35f4).
+
