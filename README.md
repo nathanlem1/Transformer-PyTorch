@@ -5,7 +5,7 @@ transformer built from built-in nn.Transformer of a PyTorch deep learning framew
 based on the original paper [Attention is All you Need](https://arxiv.org/abs/1706.03762). 
 
 The following transformer architecture is the modified version of the diagram given in the [original paper](https://arxiv.org/abs/1706.03762)
-for clarity. A transformer implementation from scratch is given in this repo for its detailed understanding.
+for clarity. A transformer implementation from scratch is also given in this repo for its detailed understanding.
 
 ![](./assets/transformer_architecture.png)
 
@@ -42,6 +42,6 @@ The following links are useful for understanding the Transformer architecture in
 [Link2](https://medium.com/@bavalpreetsinghh/transformer-from-scratch-using-pytorch-28a5d1b2e033) and 
 [Link3](https://medium.com/correll-lab/building-clip-from-scratch-68f6e42d35f4). The example given in 
 [here](https://pytorch.org/tutorials/beginner/chatbot_tutorial.html) also gives a good ChatBot tutorial
-though it uses RNN (particularly GRU with attention) unlike ours which aims to demonstrate how to implement Transformer
-in different ways: from scratch and using built-in PyTorch framework, for ChatBot example.
+though it uses RNN (particularly GRU with attention) unlike ours which aims to demonstrate how to implement Transformer 
+using built-in PyTorch framework, for ChatBot example.
 
