@@ -306,7 +306,7 @@ class DecoderLayer(nn.Module):
 # Transformer Model - Merging it all together:
 class Transformer(nn.Module):
     def __init__(self, src_vocab_size, tgt_vocab_size, d_model, num_heads, num_encoder_layers, num_decoder_layers, d_ff,
-                 max_seq_length, dropout, position_encoding_type):
+                 max_seq_length, dropout, positional_encoding_type):
         super(Transformer, self).__init__()
         self.d_model = d_model
 
@@ -317,11 +317,11 @@ class Transformer(nn.Module):
         self.decoder_embedding = nn.Embedding(tgt_vocab_size, d_model)  # target token (word) embedding.
 
         # Positional encoding
-        self.position_encoding_type = position_encoding_type
-        if self.position_encoding_type == 'sinusoidal':
-            self.positional_encoding = SinusoidalPositionalEncoding(d_model, max_seq_length)
-        elif self.position_encoding_type == 'learned':
-            self.positional_encoding = LearnedPositionalEncoding1(d_model, max_seq_length)  # Using nn.Embedding
+        self.positional_encoding_type = positional_encoding_type
+        if self.positional_encoding_type == 'sinusoidal':
+            self.positional_encoder = SinusoidalPositionalEncoding(d_model, max_seq_length)
+        elif self.positional_encoding_type == 'learned':
+            self.positional_encoder = LearnedPositionalEncoding1(d_model, max_seq_length)  # Using nn.Embedding
             # self.positional_encoding = LearnedPositionalEncoding2(d_model, max_seq_length)   # Using nn.Parameter
         else:
             raise ValueError("'Set to correct positional encoding type: 'sinusoidal' for sinusoidal positional encoding"
@@ -367,8 +367,8 @@ class Transformer(nn.Module):
         src = self.encoder_embedding(src) * math.sqrt(self.d_model)
         tgt = self.decoder_embedding(tgt) * math.sqrt(self.d_model)
 
-        src_embedded = self.dropout(self.positional_encoding(src))
-        tgt_embedded = self.dropout(self.positional_encoding(tgt))
+        src_embedded = self.dropout(self.positional_encoder(src))
+        tgt_embedded = self.dropout(self.positional_encoder(tgt))
 
         enc_output = src_embedded
         for enc_layer in self.encoder_layers:
@@ -384,8 +384,8 @@ class Transformer(nn.Module):
 
 def main():
     # Preparing Sample Data
-    src_vocab_size = 5000
-    tgt_vocab_size = 5000
+    src_vocab_size = 2000
+    tgt_vocab_size = 2000
     d_model = 512
     num_heads = 8
     num_encoder_layers = 6
