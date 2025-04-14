@@ -25,7 +25,7 @@ pip install -r requirements.txt
 To train on the sample training set provided in the `chatbot_example.py`, you need to run the following code on terminal:  
 
 ```
-python chatbot_example.py  --transformer_type from_scratch --positional_encoding_type sinusoidal
+python chatbot_example.py  --transformer_type from_pytorch --positional_encoding_type sinusoidal
 ```
 
 Please look into the `chatbot_example.py` for more details. You need to provide the correct `transformer_type` 
