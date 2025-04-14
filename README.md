@@ -1,11 +1,11 @@
 # Transformer-PyTorch
 
-This code is a complete implementation of a ChatBot (sequence-to-sequence task) using the Transformer architecture: a
-transformer implemented from scratch and a transformer built from built-in nn.Transformer of a PyTorch deep learning
-framework. This Transformer implementation is based on the original paper [Attention is All you Need](https://arxiv.org/abs/1706.03762).
+This code is a complete implementation of a ChatBot (sequence-to-sequence task) using the Transformer architecture: a 
+transformer built from built-in nn.Transformer of a PyTorch deep learning framework. This Transformer implementation is 
+based on the original paper [Attention is All you Need](https://arxiv.org/abs/1706.03762). 
 
 The following transformer architecture is the modified version of the diagram given in the [original paper](https://arxiv.org/abs/1706.03762)
-for clarity.
+for clarity. A transformer implementation from scratch is given in this repo for its detailed understanding.
 
 ![](./assets/transformer_architecture.png)
 
@@ -22,14 +22,19 @@ pip install -r requirements.txt
 ```
 
 ## Train and test 
-To train on the sample training set provided in the `chatbot_example.py`, you need to run the following code on terminal:  
-
+To train on the sample training set provided in the `chatbot_example.py`, you need to run the following code on terminal:
 ```
-python chatbot_example.py  --transformer_type from_pytorch --positional_encoding_type sinusoidal
+python chatbot_example.py --positional_encoding_type sinusoidal
 ```
 
-Please look into the `chatbot_example.py` for more details. You need to provide the correct `transformer_type` 
-(`from_scratch` or `from_pytorch`), `positional_encoding_type` (`sinusoidal` or `learned`), and others if necessary.
+Please look into the `chatbot_example.py` for more details. You need to provide the correct `positional_encoding_type` 
+(`sinusoidal` or `learned`), and others if necessary.
+
+
+To run the transformer implementation from scratch, you need to run the following code on terminal:
+```
+python transformer_from_scratch.py
+```
 
 ## Additional Information
 The following links are useful for understanding the Transformer architecture in more details: 
