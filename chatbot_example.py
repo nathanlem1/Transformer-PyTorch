@@ -1,11 +1,11 @@
 """
 This code is a complete implementation of a ChatBot (sequence-to-sequence task) using the Transformer architecture: a
-transformer implemented from scratch and a transformer built from built-in nn.Transformer of a PyTorch deep learning
-framework. This Transformer implementation is based on the original paper 'Attention is All you Need'.
+transformer built from built-in nn.Transformer of a PyTorch deep learning framework. This Transformer implementation is
+based on the original paper 'Attention is All you Need'.
 
 The example given in https://pytorch.org/tutorials/beginner/chatbot_tutorial.html also gives a good ChatBot tutorial
 though it uses RNN (particularly GRU with attention) unlike ours which aims to demonstrate how to implement Transformer
-in different ways: from scratch and using built-in PyTorch framework, for ChatBot example.
+using built-in PyTorch framework, for ChatBot example.
 
 Key Advantages of This Implementation:
 1. Transformer Architecture: Uses self-attention mechanisms for better context understanding.
@@ -50,7 +50,6 @@ nltk.download('punkt')  # For tokenization
 from loguru import logger
 
 from transformer_from_pytorch import Transformer as transformer_pytorch
-from transformer_from_scratch import Transformer as transformer_scratch
 
 
 # Build vocabulary
@@ -89,9 +88,11 @@ def create_mask(model, vocab, src, tgt, device):
     src_seq_len = src.shape[1]
     tgt_seq_len = tgt.shape[1]
 
+    # Look ahead mask (causal mask) - future token masking
     tgt_mask = model.generate_square_subsequent_mask(tgt_seq_len, device)
     src_mask = torch.zeros((src_seq_len, src_seq_len), device=device).type(torch.bool)
 
+    # Padding mask
     src_padding_mask = (src == vocab.word2idx['<pad>'])
     tgt_padding_mask = (tgt == vocab.word2idx['<pad>'])
 
@@ -192,8 +193,6 @@ def generate_response(model, input_sentence, vocab, device, max_length=15, tempe
 
 def main():
     parser = argparse.ArgumentParser(description='ChatBot Example using Transformer Implementation from Scratch.')
-    parser.add_argument('--transformer_type', type=str, default='from_pytorch',
-                        help='Transformer implementation type to use: from_scratch or from_pytorch.')
     parser.add_argument('--d_model', type=int, default=256,  # default: 512
                         help='Dimension of the embeddings.')
     parser.add_argument('--num_heads', type=int, default=8,
@@ -259,28 +258,16 @@ def main():
     VOCAB_SIZE = len(vocab.word2idx)
 
     # Initialize model
-    if args.transformer_type == 'from_pytorch':
-        model = transformer_pytorch(
-            VOCAB_SIZE,
-            d_model=args.d_model,
-            num_heads=args.num_heads,
-            num_encoder_layers=args.num_encoder_layers,
-            num_decoder_layers=args.num_decoder_layers,
-            dim_feedforward=args.dim_feedforward,
-            dropout=args.dropout,
-            positional_encoding_type=args.positional_encoding_type
-            ).to(device)
-    elif args.transformer_type == 'from_scratch':
-        src_vocab_size = len(vocab.word2idx)
-        tgt_vocab_size = len(vocab.word2idx)
-        d_ff = 2048
-        max_seq_length = 100
-
-        model = transformer_scratch(src_vocab_size, tgt_vocab_size, args.d_model, args.num_heads,
-                                    args.num_encoder_layers, args.num_decoder_layers, d_ff, max_seq_length,
-                                    args.dropout, args.position_encoding_type).to(device)
-    else:
-        raise ValueError("'Set to correct transformer implementation type: 'from_pytorch' or 'from_scratch'.")
+    model = transformer_pytorch(
+        VOCAB_SIZE,
+        d_model=args.d_model,
+        num_heads=args.num_heads,
+        num_encoder_layers=args.num_encoder_layers,
+        num_decoder_layers=args.num_decoder_layers,
+        dim_feedforward=args.dim_feedforward,
+        dropout=args.dropout,
+        positional_encoding_type=args.positional_encoding_type
+        ).to(device)
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss(ignore_index=vocab.word2idx['<pad>'])
