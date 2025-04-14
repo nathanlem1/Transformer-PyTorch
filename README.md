@@ -13,7 +13,7 @@ for clarity.
 ## Installation
 
 Git clone this repo and install dependencies to have the same environment configuration as the one we used. Note that 
-we trained all models on a single NVIDIA GeForce RTX 2080 Ti GPU.
+we trained it on a single NVIDIA GeForce RTX 2080 Ti GPU.
 
 ```
 git clone https://github.com/nathanlem1/Transformer-PyTorch
@@ -29,11 +29,14 @@ python chatbot_example.py  --transformer_type from_scratch --positional_encoding
 ```
 
 Please look into the `chatbot_example.py` for more details. You need to provide the correct `transformer_type` 
-(`from_scratch` or `from_pytorch`), `positional_encoding_type` (`sinusoidal` or `learned`) and others if necessary.
+(`from_scratch` or `from_pytorch`), `positional_encoding_type` (`sinusoidal` or `learned`), and others if necessary.
 
 ## Additional Information
 The following links are useful for understanding the Transformer architecture in more details: 
 [Link1](https://medium.com/towards-data-science/build-your-own-transformer-from-scratch-using-pytorch-84c850470dcb), 
 [Link2](https://medium.com/@bavalpreetsinghh/transformer-from-scratch-using-pytorch-28a5d1b2e033) and 
-[Link3](https://medium.com/correll-lab/building-clip-from-scratch-68f6e42d35f4).
+[Link3](https://medium.com/correll-lab/building-clip-from-scratch-68f6e42d35f4). The example given in 
+[here](https://pytorch.org/tutorials/beginner/chatbot_tutorial.html) also gives a good ChatBot tutorial
+though it uses RNN (particularly GRU with attention) unlike ours which aims to demonstrate how to implement Transformer
+in different ways: from scratch and using built-in PyTorch framework, for ChatBot example.
 
