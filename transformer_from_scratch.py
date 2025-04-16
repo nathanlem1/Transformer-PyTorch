@@ -1,20 +1,21 @@
 """
 This a Transformer implementation from scratch using PyTorch. Note that all Large Language Models (LLMs) use these
-Transformer encoder (e.g. BERT) or decoder (e.g. GPT) blocks for training. Hence, understanding the Transformer in
-detail is extremely important.
+Transformer encoder (e.g. BERT) or decoder (e.g. GPT) blocks for training. Vision Transformer is also based on the
+Transformer encoder. Hence, understanding the Transformer in detail is extremely important.
 
 Note that RNNs process data sequentially (one step at a time) which hinders parallelization whereas Transformers process
 the entire sequence in parallel using self-attention mechanisms. RNNs are like reading a book one word at a time,
 remembering what came before. Transformers are like reading the whole page at once and deciding what’s important using
 attention.
 
-To build our Transformer model, we’ll follow these steps:
-1. Import necessary libraries and modules
+We follow the following steps to build our Transformer model:
+1. Import necessary libraries and modules.
 2. Define the basic building blocks: Multi-Head Attention, Position-wise Feed-Forward Networks, Positional Encoding
-3. Build the Encoder and Decoder layers
-4. Combine Encoder and Decoder layers to create the complete Transformer model
-5. Prepare sample data for sequence-to-sequence task
-6. Train the model
+   (fixed or learned).
+3. Build the Encoder and Decoder layers.
+4. Combine Encoder and Decoder layers to create the complete Transformer model.
+5. Prepare sample data for sequence-to-sequence task.
+6. Train the model.
 """
 
 # Import necessary libraries and modules
