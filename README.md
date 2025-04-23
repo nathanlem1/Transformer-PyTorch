@@ -40,7 +40,7 @@ python transformer_from_scratch.py
 The following links are useful for understanding the Transformer architecture in more details: 
 [Link1](https://medium.com/towards-data-science/build-your-own-transformer-from-scratch-using-pytorch-84c850470dcb) and
 [Link2](https://medium.com/@bavalpreetsinghh/transformer-from-scratch-using-pytorch-28a5d1b2e033). 
-The other useful links that use variants of transformers include 
+The other useful links that use variants of transformer include 
 [vit](https://medium.com/correll-lab/building-a-vision-transformer-model-from-scratch-a3054f707cc6) and 
 [CLIP](https://medium.com/correll-lab/building-clip-from-scratch-68f6e42d35f4). The example given in 
 [here](https://pytorch.org/tutorials/beginner/chatbot_tutorial.html) also gives a good ChatBot tutorial
