@@ -127,9 +127,9 @@ class SinusoidalPositionalEncoding(nn.Module):
     they need a way to incorporate the order of tokens. This is achieved through positional encodings, which are vectors
     added to the word embeddings. It is used to inject the position information of each token in the input sequence. It
     uses sine and cosine functions of different frequencies to generate the positional encoding. Though this encoding
-    works well on text data, it does not work with image data. So there can be multiple ways of embedding the position
-    of an object (text/image ), and they can be fixed or learned during training. This a fixed sinusoidal positional
-    encoding.
+    works well on text data, it does not work very well on image data. So there can be multiple ways of embedding the
+    position of an object (text/image ), and they can be fixed or learned during training. This a fixed sinusoidal
+    positional encoding.
 
     Advantages:
         1. No training necessary
