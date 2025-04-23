@@ -38,9 +38,11 @@ python transformer_from_scratch.py
 
 ## Additional Information
 The following links are useful for understanding the Transformer architecture in more details: 
-[Link1](https://medium.com/towards-data-science/build-your-own-transformer-from-scratch-using-pytorch-84c850470dcb), 
-[Link2](https://medium.com/@bavalpreetsinghh/transformer-from-scratch-using-pytorch-28a5d1b2e033) and 
-[Link3](https://medium.com/correll-lab/building-clip-from-scratch-68f6e42d35f4). The example given in 
+[Link1](https://medium.com/towards-data-science/build-your-own-transformer-from-scratch-using-pytorch-84c850470dcb) and
+[Link2](https://medium.com/@bavalpreetsinghh/transformer-from-scratch-using-pytorch-28a5d1b2e033). 
+The other useful links that use variants of transformers include 
+[vit](https://medium.com/correll-lab/building-a-vision-transformer-model-from-scratch-a3054f707cc6) and 
+[CLIP](https://medium.com/correll-lab/building-clip-from-scratch-68f6e42d35f4). The example given in 
 [here](https://pytorch.org/tutorials/beginner/chatbot_tutorial.html) also gives a good ChatBot tutorial
 though it uses RNN (particularly GRU with attention) unlike ours which aims to demonstrate how to implement Transformer 
 using built-in PyTorch framework, for ChatBot example.
