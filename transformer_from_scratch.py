@@ -1,9 +1,9 @@
 """
-This a Transformer implementation from scratch using PyTorch. Note that all Large Language Models (LLMs) use these
-Transformer encoder (e.g. BERT) or decoder (e.g. GPT) blocks for training. Vision Transformer is also based on the
+This a Transformer implementation from scratch using PyTorch. Note that all Large Language Models (LLMs) use this
+Transformer encoder (e.g., BERT) or decoder (e.g., GPT) blocks for training. Vision Transformer is also based on the
 Transformer encoder. Hence, understanding the Transformer in detail is extremely important.
 
-Note that RNNs process data sequentially (one step at a time) which hinders parallelization whereas Transformers process
+Note that RNNs process data sequentially (one step at a time) which hinders parallelization, whereas Transformers process
 the entire sequence in parallel using self-attention mechanisms. RNNs are like reading a book one word at a time,
 remembering what came before. Transformers are like reading the whole page at once and deciding what’s important using
 attention.
@@ -14,11 +14,11 @@ We follow the following steps to build our Transformer model:
    (fixed or learned).
 3. Build the Encoder and Decoder layers.
 4. Combine Encoder and Decoder layers to create the complete Transformer model.
-5. Prepare sample data for sequence-to-sequence task.
+5. Prepare sample data for a sequence-to-sequence task.
 6. Train the model.
 """
 
-# Import necessary libraries and modules
+# Import the necessary libraries and modules
 import torch
 import torch.nn as nn
 import math
@@ -27,13 +27,13 @@ import math
 # Multi-Head Attention
 class MultiHeadAttention(nn.Module):
     """
-    Multi-Head Attention mechanism computes the attention between each pair of elements (e.g. tokens) in a sequence. It
-    consists of multiple attention heads that capture different aspects of the input sequence. It allows the model to
+    Multi-Head Attention mechanism computes the attention between each pair of elements (e.g., tokens) in a sequence.
+    It consists of multiple attention heads that capture different aspects of the input sequence. It allows the model to
     jointly attend to information from different representation subspaces at different positions.
 
     Instead of performing a single attention function with d_model-dimensional keys, values and queries, it is
     beneficial to linearly project the queries, keys and values h times with different, learned linear projections to
-    d_k, d_k and d_v dimensions, respectively. On each of these projected versions of queries, keys and values we then
+    d_k, d_k and d_v dimensions, respectively. On each of these projected versions of queries, keys and values, we then
     perform the attention function in parallel, yielding d_v-dimensional output values. These are concatenated and once
     again projected, resulting in the final values.
     """
@@ -101,7 +101,7 @@ class MultiHeadAttention(nn.Module):
         # Multiply by Wo
         # (batch, seq_len, d_model) --> (batch, seq_len, d_model) i.e. the output shape is the same as the input shape.
         output = self.W_o(attn_output)
-        return output
+        return output, attention_scores
 
 
 # Position-wise Feed-Forward Networks
@@ -123,13 +123,13 @@ class PositionWiseFeedForward(nn.Module):
 # Sinusoidal Positional Encoding
 class SinusoidalPositionalEncoding(nn.Module):
     """
-    Since transformers do not inherently process tokens in a sequential manner like RNNs (Recurrent Neural Networks),
-    they need a way to incorporate the order of tokens. This is achieved through positional encodings, which are vectors
-    added to the word embeddings. It is used to inject the position information of each token in the input sequence. It
-    uses sine and cosine functions of different frequencies to generate the positional encoding. Though this encoding
-    works well on text data, it does not work very well on image data. So there can be multiple ways of embedding the
-    position of an object (text/image ), and they can be fixed or learned during training. This a fixed sinusoidal
-    positional encoding.
+    Since transformers do not inherently process tokens sequentially like RNNs (Recurrent Neural Networks), they need a
+    way to incorporate the order of tokens. This is achieved through positional encodings, which are vectors added to
+    the word embeddings. It is used to inject the position information of each token in the input sequence. It uses
+    sine and cosine functions of different frequencies to generate the positional encoding. Though this encoding works
+    well on text data, it does not work very well on image data. So there can be multiple ways of embedding the position
+    of an object (text/image), and they can be fixed or learned during training. This is a fixed sinusoidal positional
+    encoding.
 
     Advantages:
         1. No training necessary
@@ -172,7 +172,7 @@ class SinusoidalPositionalEncoding(nn.Module):
     def forward(self, x):
         # (batch, max_seq_length, d_model)
         return x + self.pe[:, :x.size(1)]  # Add positional encoding to word (token) embeddings. The positional encoding
-        # vectors have the same size as the word embeddings i.e. d_model dimensions. Positional Embedding ~= positional
+        # vectors have the same size as the word embeddings i.e., d_model dimensions. Positional Embedding ~= positional
         # encoding + word embedding.
 
 
@@ -185,7 +185,7 @@ class LearnedPositionalEncoding1(nn.Module):
     for its convenience and standard usage in the PyTorch ecosystem.
 
     Three issues:
-        1. Requires to know the maximum L value among all training sequences.
+        1. It Requires knowing the maximum L value among all training sequences.
         2. Some test sequences may have lengths not present in the train set. Hence, it might not generalize as well to
            sequences longer than those seen during training.
         3. It requires more parameters than sinusoidal encoding. It may need more training data to learn effective
@@ -193,8 +193,8 @@ class LearnedPositionalEncoding1(nn.Module):
     """
     def __init__(self, d_model, max_seq_length=100):
         """
-        d_model: dimension of the embeddings i.e. the number of expected features in the encoder/decoder inputs.
-        max_seq_length: Maximum length of input sequence.
+        d_model: dimension of the embeddings i.e., the number of expected features in the encoder/decoder inputs.
+        max_seq_length: Maximum length of an input sequence.
         """
         super(LearnedPositionalEncoding1, self).__init__()
         self.position_embeddings = nn.Embedding(max_seq_length, d_model)
@@ -211,12 +211,12 @@ class LearnedPositionalEncoding2(nn.Module):
     """
     Both nn.Embedding and nn.Parameter can be used for learned positional encoding. Both approaches will work and
     learn position embeddings during training, but nn.Embedding is generally preferred for its convenience and standard
-    usage in the PyTorch ecosystem. In case of nn.Parameter, you want to manually control every aspect of the operation.
+    usage in the PyTorch ecosystem. In the case of nn.Parameter, you want to manually control every aspect of the operation.
     """
     def __init__(self, d_model, max_seq_length=100):
         """
-        d_model: dimension of the embeddings i.e. the number of expected features in the encoder/decoder inputs.
-        max_seq_length: Maximum length of input sequence.
+        d_model: dimension of the embeddings i.e., the number of expected features in the encoder/decoder inputs.
+        max_seq_length: Maximum length of an input sequence.
         """
         super(LearnedPositionalEncoding2, self).__init__()
         self.position_embeddings = nn.Parameter(torch.zeros(max_seq_length, d_model))
@@ -235,7 +235,7 @@ class EncoderLayer(nn.Module):
     """
     def __init__(self, d_model, num_heads, d_ff, dropout):
         """
-        d_model: dimension of the embeddings i.e. the number of expected features in the encoder/decoder inputs.
+        d_model: dimension of the embeddings i.e., the number of expected features in the encoder/decoder inputs.
         num_heads: Number of heads (for multi-head attention).
         d_ff: dimension of the position-wise feedforward.
         dropout: dropout rate.
@@ -252,7 +252,7 @@ class EncoderLayer(nn.Module):
         x: The input tensor (encoder input).
         mask: Source mask to prevent the model from attending to padding tokens in the source input.
         """
-        attn_output = self.self_attn(x, x, x, mask)  # The input x is used to attend to itself. This means that each
+        attn_output, attention_scores = self.self_attn(x, x, x, mask)  # The input x is used to attend to itself. This means that each
         # word in a sentence interacts with every other word in the same sentence.
         x = self.norm1(x + self.dropout(attn_output))
         ff_output = self.feed_forward(x)
@@ -269,7 +269,7 @@ class DecoderLayer(nn.Module):
     """
     def __init__(self, d_model, num_heads, d_ff, dropout):
         """
-        d_model: dimension of the embeddings i.e. the number of expected features in the encoder/decoder inputs.
+        d_model: dimension of the embeddings i.e., the number of expected features in the encoder/decoder inputs.
         num_heads: Number of heads (for multi-head attention).
         d_ff: dimension of the position-wise feedforward.
         dropout: dropout rate.
@@ -292,9 +292,9 @@ class DecoderLayer(nn.Module):
         tgt_mask: Target mask to prevent the model from attending to future tokens in the target sequence (look-ahead
         mask).
         """
-        attn_output = self.self_attn(x, x, x, tgt_mask)  # Masked multi-head self-attention.
+        attn_output, attention_scores_self = self.self_attn(x, x, x, tgt_mask)  # Masked multi-head self-attention.
         x = self.norm1(x + self.dropout(attn_output))
-        attn_output = self.cross_attn(x, enc_output, enc_output, src_mask)  # Multi-head cross-attention, between the
+        attn_output, attention_scores_cross = self.cross_attn(x, enc_output, enc_output, src_mask)  # Multi-head cross-attention, between the
         # decoder input (x for Q) and encoder outputs (enc_output for both K & V). The query comes from the decoder,
         # while the key and value come from the encoder.
 
@@ -313,7 +313,7 @@ class Transformer(nn.Module):
 
         # Token (word) embedding
         self.encoder_embedding = nn.Embedding(src_vocab_size, d_model)  # source token (word) embedding - Categorical
-        # variables (dictionary of N words i.e. vocabulary size) are represented by one-hot vectors and then embedded
+        # variables (dictionary of N words i.e., vocabulary size) are represented by one-hot vectors and then embedded
         # into a linear space, with a size of dimension d_model.
         self.decoder_embedding = nn.Embedding(tgt_vocab_size, d_model)  # target token (word) embedding.
 
@@ -323,7 +323,7 @@ class Transformer(nn.Module):
             self.positional_encoder = SinusoidalPositionalEncoding(d_model, max_seq_length)
         elif self.positional_encoding_type == 'learned':
             self.positional_encoder = LearnedPositionalEncoding1(d_model, max_seq_length)  # Using nn.Embedding
-            # self.positional_encoding = LearnedPositionalEncoding2(d_model, max_seq_length)   # Using nn.Parameter
+            # self.positional_encoding = LearnedPositionalEncoding2(d_model, max_seq_length)  # Using nn.Parameter
         else:
             raise ValueError("'Set to correct positional encoding type: 'sinusoidal' for sinusoidal positional encoding"
                              "or 'learned' for learned positional encoding.")
@@ -351,7 +351,7 @@ class Transformer(nn.Module):
         # Padding mask: Prevents from considering padding tokens in the source and target sequences. This is used in
         # both encoder and decoder.
         src_mask = (src != 0).unsqueeze(1).unsqueeze(2)  # the additive mask for the src sequence.
-        tgt_mask = (tgt != 0).unsqueeze(1).unsqueeze(2)  # the additive mask for the tgt sequence. Todo: 2 or 3?
+        tgt_mask = (tgt != 0).unsqueeze(1).unsqueeze(2)  # the additive mask for the tgt sequence.
         seq_length = tgt.size(1)
         # Look ahead mask (causal mask): Prevents from not attending to future positions (tokens). This is used in
         # decoder.
@@ -364,7 +364,7 @@ class Transformer(nn.Module):
 
         # Scale the embeddings by the square root of d_model. This is often done to maintain the variance of the
         # embeddings when they are passed through the network, helping with training stability. To read more about
-        # this please refer to section 3.4 of the original paper ('Attention is All You Need').
+        # this, please refer to section 3.4 of the original paper ('Attention is All You Need').
         src = self.encoder_embedding(src) * math.sqrt(self.d_model)
         tgt = self.decoder_embedding(tgt) * math.sqrt(self.d_model)
 

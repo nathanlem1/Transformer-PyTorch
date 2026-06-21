@@ -1,6 +1,6 @@
 """
 This is a Transformer implementation using built-in nn.Transformer available in PyTorch deep learning framework for a
-ChatBot task i.e. sequence-to-sequence task.
+ChatBot task i.e., sequence-to-sequence task.
 """
 import torch
 import torch.nn as nn
@@ -10,12 +10,12 @@ import math
 # Sinusoidal Positional Encoding
 class SinusoidalPositionalEncoding(nn.Module):
     """
-    Since transformers do not inherently process tokens in a sequential manner like RNNs (Recurrent Neural Networks),
-    they need a way to incorporate the order of tokens. This is achieved through positional encodings, which are vectors
-    added to the word embeddings. It is used to inject the position information of each token in the input sequence. It
-    uses sine and cosine functions of different frequencies to generate the positional encoding. Though this encoding
-    works well on text data, it does not work with image data. So there can be multiple ways of embedding the position
-    of an object (text/image ), and they can be fixed or learned during training. This a fixed sinusoidal positional
+    Since transformers do not inherently process tokens sequentially like RNNs (Recurrent Neural Networks), they need
+    a way to incorporate the order of tokens. This is achieved through positional encodings, which are vectors added
+    to the word embeddings. It is used to inject the position information of each token in the input sequence. It uses
+    sine and cosine functions of different frequencies to generate the positional encoding. Though this encoding works
+    well on text data, it does not work with image data. So there can be multiple ways of embedding the position of an
+    object (text/image), and they can be fixed or learned during training. This is a fixed sinusoidal positional
     encoding.
 
     Advantages:
@@ -25,8 +25,8 @@ class SinusoidalPositionalEncoding(nn.Module):
     """
     def __init__(self, d_model, max_seq_length=100):
         """
-        d_model: dimension of the embeddings i.e. the number of expected features in the encoder/decoder inputs.
-        max_seq_length: Maximum length of input sequence.
+        d_model: dimension of the embeddings i.e., the number of expected features in the encoder/decoder inputs.
+        max_seq_length: Maximum length of an input sequence.
         """
         super(SinusoidalPositionalEncoding, self).__init__()
 
@@ -54,12 +54,12 @@ class SinusoidalPositionalEncoding(nn.Module):
         pe = pe.unsqueeze(0)  # (1, max_seq_length, d_model)
         # Register the positional encoding as a buffer
         self.register_buffer('pe', pe)  # Notice that pe is only a local variable and only gets added to the class
-        # using the register_buffer method. This way,the positional encoding become a non-trainable part of the model.
+        # using the register_buffer method. In this way,the positional encoding becomes a non-trainable part of the model.
 
     def forward(self, x):
         # (batch, max_seq_length, d_model)
         return x + self.pe[:, :x.size(1)]  # Add positional encoding to word (token) embeddings. The positional encoding
-        # vectors have the same size as the word embeddings i.e. d_model dimensions. Positional Embedding ~= positional
+        # vectors have the same size as the word embeddings i.e., d_model dimensions. Positional Embedding ~= positional
         # encoding + word embedding.
 
 
@@ -72,7 +72,7 @@ class LearnedPositionalEncoding1(nn.Module):
     for its convenience and standard usage in the PyTorch ecosystem.
 
     Three issues:
-        1. Requires to know the maximum L value among all training sequences.
+        1. It requires knowing the maximum L value among all training sequences.
         2. Some test sequences may have lengths not present in the train set. Hence, it might not generalize as well to
            sequences longer than those seen during training.
         3. It requires more parameters than sinusoidal encoding. It may need more training data to learn effective
@@ -94,7 +94,8 @@ class LearnedPositionalEncoding2(nn.Module):
     """
     Both nn.Embedding and nn.Parameter can be used for learned positional encoding. Both approaches will work and
     learn position embeddings during training, but nn.Embedding is generally preferred for its convenience and standard
-    usage in the PyTorch ecosystem. In case of nn.Parameter, you want to manually control every aspect of the operation.
+    usage in the PyTorch ecosystem. In the case of nn.Parameter, you want to manually control every aspect of the
+    operation.
     """
     def __init__(self, d_model, max_seq_length=100):
         super(LearnedPositionalEncoding2, self).__init__()
@@ -108,14 +109,14 @@ class LearnedPositionalEncoding2(nn.Module):
 
 class Transformer(nn.Module):
     """
-    Transformer Model Implementation using built-in nn.Transformer PyTorch deep learning framework.
+    Transformer Model Implementation using a built-in nn.Transformer PyTorch deep learning framework.
     """
     def __init__(self, vocab_size, d_model=512, num_heads=8, num_encoder_layers=6, num_decoder_layers=6,
                  dim_feedforward=2048, dropout=0.1, positional_encoding_type='sinusoidal'):
         super(Transformer, self).__init__()
         self.d_model = d_model
         self.encoder_embedding = nn.Embedding(vocab_size, d_model)  # word embedding - Categorical variables (dictionary
-        # of N words i.e. vocabulary size) are represented by one-hot vectors and then embedded into a linear space.
+        # of N words i.e., vocabulary size) are represented by one-hot vectors and then embedded into a linear space.
         self.decoder_embedding = nn.Embedding(vocab_size, d_model)
 
         self.positional_encoding_type = positional_encoding_type
@@ -123,7 +124,7 @@ class Transformer(nn.Module):
             self.positional_encoder = SinusoidalPositionalEncoding(d_model)
         elif self.positional_encoding_type == 'learned':
             self.positional_encoder = LearnedPositionalEncoding1(d_model)  # Using nn.Embedding
-            # self.positional_encoder = LearnedPositionalEncoding2(d_model, max_seq_length)   # Using nn.Parameter
+            # self.positional_encoder = LearnedPositionalEncoding2(d_model, max_seq_length)  # Using nn.Parameter
         else:
             raise ValueError("'Set to correct positional encoding type: 'sinusoidal' for sinusoidal positional encoding"
                              "or 'learned' for learned positional encoding.")

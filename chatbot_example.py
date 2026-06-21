@@ -3,9 +3,9 @@ This code is a complete implementation of a ChatBot (sequence-to-sequence task) 
 transformer built from built-in nn.Transformer of a PyTorch deep learning framework. This Transformer implementation is
 based on the original paper 'Attention is All you Need'.
 
-The example given in https://pytorch.org/tutorials/beginner/chatbot_tutorial.html also gives a good ChatBot tutorial
-though it uses RNN (particularly GRU with attention) unlike ours which aims to demonstrate how to implement Transformer
-using built-in PyTorch framework, for ChatBot example.
+The example given in https://pytorch.org/tutorials/beginner/chatbot_tutorial.html also gives a good ChatBot tutorial,
+though it uses RNN (particularly GRU with attention) unlike this repo which aims to demonstrate how to implement
+Transformer using a built-in PyTorch framework, for ChatBot example.
 
 Key Advantages of This Implementation:
 1. Transformer Architecture: Uses self-attention mechanisms for better context understanding.
